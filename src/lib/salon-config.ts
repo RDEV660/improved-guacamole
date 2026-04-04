@@ -47,14 +47,26 @@ export async function readSalonConfig(): Promise<SalonConfig> {
     if (r.success) return r.data;
     return DEFAULT_SALON_CONFIG;
   }
-  await ensureConfigFile();
-  const raw = await fs.readFile(CONFIG_PATH, "utf8");
   try {
-    const parsed = JSON.parse(raw) as unknown;
-    const r = SalonConfigSchema.safeParse(parsed);
-    if (r.success) return r.data;
+    await ensureConfigFile();
+    const raw = await fs.readFile(CONFIG_PATH, "utf8");
+    try {
+      const parsed = JSON.parse(raw) as unknown;
+      const r = SalonConfigSchema.safeParse(parsed);
+      if (r.success) return r.data;
+    } catch {
+      /* fall through */
+    }
   } catch {
-    /* fall through */
+    // Read-only FS on serverless: use bundled or committed file if present.
+    try {
+      const raw = await fs.readFile(CONFIG_PATH, "utf8");
+      const parsed = JSON.parse(raw) as unknown;
+      const r = SalonConfigSchema.safeParse(parsed);
+      if (r.success) return r.data;
+    } catch {
+      /* fall through */
+    }
   }
   return DEFAULT_SALON_CONFIG;
 }

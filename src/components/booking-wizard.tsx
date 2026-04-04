@@ -277,7 +277,14 @@ export function BookingWizard() {
           params.set("preferredStaffId", staffChoice);
         }
         const res = await fetch(`/api/bookings/availability?${params}`);
-        const data = (await res.json()) as { slots?: string[]; closed?: boolean; error?: string };
+        const text = await res.text();
+        let data: { slots?: string[]; closed?: boolean; error?: string };
+        try {
+          data = JSON.parse(text) as { slots?: string[]; closed?: boolean; error?: string };
+        } catch {
+          setSlotsError("Could not load times. Please refresh the page.");
+          return;
+        }
         if (!res.ok) {
           setSlotsError(data.error ?? "Could not load times.");
           return;
@@ -314,10 +321,21 @@ export function BookingWizard() {
         params.set("preferredStaffId", staffChoice);
       }
       const res = await fetch(`/api/bookings/availability/range?${params}`);
-      const data = (await res.json()) as {
+      const text = await res.text();
+      let data: {
         days?: { date: string; closed: boolean; hasSlots: boolean }[];
         error?: string;
       };
+      try {
+        data = JSON.parse(text) as {
+          days?: { date: string; closed: boolean; hasSlots: boolean }[];
+          error?: string;
+        };
+      } catch {
+        setRangeError("Could not load calendar. Please refresh the page.");
+        setDaySummaries(null);
+        return;
+      }
       if (!res.ok) {
         setRangeError(data.error ?? "Could not load calendar.");
         setDaySummaries(null);

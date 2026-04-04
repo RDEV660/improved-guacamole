@@ -23,17 +23,30 @@ export async function loadStaffAbsences(): Promise<AbsencesFile> {
     if (data && typeof data === "object" && !Array.isArray(data)) return data;
     return {};
   }
-  await ensureDataFile();
-  const raw = await fs.readFile(DATA_FILE, "utf8");
   try {
-    const parsed = JSON.parse(raw) as unknown;
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      return parsed as AbsencesFile;
+    await ensureDataFile();
+    const raw = await fs.readFile(DATA_FILE, "utf8");
+    try {
+      const parsed = JSON.parse(raw) as unknown;
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return parsed as AbsencesFile;
+      }
+    } catch {
+      /* ignore */
     }
+    return {};
   } catch {
-    /* ignore */
+    try {
+      const raw = await fs.readFile(DATA_FILE, "utf8");
+      const parsed = JSON.parse(raw) as unknown;
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return parsed as AbsencesFile;
+      }
+    } catch {
+      /* ignore */
+    }
+    return {};
   }
-  return {};
 }
 
 export async function saveStaffAbsences(data: AbsencesFile): Promise<void> {

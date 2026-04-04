@@ -20,13 +20,24 @@ export async function loadBookings(): Promise<BookingRecord[]> {
     const data = await redisGetJson<BookingRecord[]>(REDIS_KEYS.bookings);
     return Array.isArray(data) ? data : [];
   }
-  await ensureDataFile();
-  const raw = await fs.readFile(DATA_FILE, "utf8");
   try {
-    const parsed = JSON.parse(raw) as unknown;
-    return Array.isArray(parsed) ? (parsed as BookingRecord[]) : [];
+    await ensureDataFile();
+    const raw = await fs.readFile(DATA_FILE, "utf8");
+    try {
+      const parsed = JSON.parse(raw) as unknown;
+      return Array.isArray(parsed) ? (parsed as BookingRecord[]) : [];
+    } catch {
+      return [];
+    }
   } catch {
-    return [];
+    // Read-only FS on serverless (e.g. Vercel) — skip mkdir/write and read if file shipped with deploy.
+    try {
+      const raw = await fs.readFile(DATA_FILE, "utf8");
+      const parsed = JSON.parse(raw) as unknown;
+      return Array.isArray(parsed) ? (parsed as BookingRecord[]) : [];
+    } catch {
+      return [];
+    }
   }
 }
 
