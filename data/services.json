@@ -1,0 +1,1314 @@
+[
+  {
+    "id": "mani-classic",
+    "category": "Nails \u2014 Manicures",
+    "name": "Classic manicure",
+    "description": "Shape, cuticle care, polish or buff.",
+    "durationMin": 45,
+    "priceCents": 2000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "mani-deluxe",
+    "category": "Nails \u2014 Manicures",
+    "name": "Deluxe manicure",
+    "description": "Scrub, massage, cuticle care, polish.",
+    "durationMin": 50,
+    "priceCents": 3000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "acrylic-overlay",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Acrylic overlay",
+    "description": "Overlay on natural nails.",
+    "durationMin": 60,
+    "priceCents": 4000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "acrylic-tier-12",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Acrylic (length 1\u20132)",
+    "description": "Short set pricing tier.",
+    "durationMin": 75,
+    "priceCents": 4500,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "acrylic-tier-34",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Acrylic (length 3\u20134)",
+    "description": "Medium length tier.",
+    "durationMin": 75,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "acrylic-tier-56",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Acrylic (length 5\u20136)",
+    "description": "Longer length tier.",
+    "durationMin": 90,
+    "priceCents": 5500,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "acrylic-tier-78",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Acrylic (length 7\u20138)",
+    "description": "Extra long tier.",
+    "durationMin": 90,
+    "priceCents": 6000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "acrylic-refill",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Acrylic refill",
+    "description": "Fill and rebalance.",
+    "durationMin": 60,
+    "priceCents": 4000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "mani-little-diva",
+    "category": "Nails \u2014 Manicures",
+    "name": "Little Divas manicure",
+    "description": "Kids\u2019 manicure.",
+    "durationMin": 30,
+    "priceCents": 2000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "gelx-extra-short",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Gel-X extra short",
+    "description": "Apres-style extensions.",
+    "durationMin": 75,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "gelx-short",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Gel-X short",
+    "description": "Short Gel-X set.",
+    "durationMin": 75,
+    "priceCents": 5500,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "gelx-medium",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Gel-X medium",
+    "description": "Medium Gel-X set.",
+    "durationMin": 90,
+    "priceCents": 6000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "gelx-refill",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Gel-X refill",
+    "description": "Maintenance visit.",
+    "durationMin": 60,
+    "priceCents": 4500,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "builder-gel",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Builder gel",
+    "description": "Builder gel overlay.",
+    "durationMin": 60,
+    "priceCents": 4000,
+    "startingAt": true,
+    "staffIds": [
+      "sherlyn"
+    ]
+  },
+  {
+    "id": "builder-gel-refill",
+    "category": "Nails \u2014 Acrylic, Builder & Gel-X",
+    "name": "Builder gel refill",
+    "description": "Builder maintenance.",
+    "durationMin": 55,
+    "priceCents": 3500,
+    "startingAt": true,
+    "staffIds": [
+      "sherlyn"
+    ]
+  },
+  {
+    "id": "shellac-apply",
+    "category": "Nails \u2014 Polish & extras",
+    "name": "Shellac / gel polish application",
+    "description": "Gel polish application.",
+    "durationMin": 30,
+    "priceCents": 2000,
+    "startingAt": false,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "shellac-remove",
+    "category": "Nails \u2014 Polish & extras",
+    "name": "Shellac removal",
+    "description": "Safe gel removal.",
+    "durationMin": 20,
+    "priceCents": 500,
+    "startingAt": false,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "addon-nail-art",
+    "category": "Nails \u2014 Polish & extras",
+    "name": "Nail art (per nail)",
+    "description": "Custom art.",
+    "durationMin": 10,
+    "priceCents": 200,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "addon-chrome",
+    "category": "Nails \u2014 Polish & extras",
+    "name": "Chrome (per nail)",
+    "description": "Metallic finish.",
+    "durationMin": 10,
+    "priceCents": 500,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "addon-soak-off",
+    "category": "Nails \u2014 Polish & extras",
+    "name": "Soak-off",
+    "description": "Product removal add-on.",
+    "durationMin": 25,
+    "priceCents": 1500,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  },
+  {
+    "id": "pedi-basic",
+    "category": "Nails \u2014 Pedicures",
+    "name": "Basic pedicure",
+    "description": "Soak, shape, scrub, massage, polish.",
+    "durationMin": 60,
+    "priceCents": 3000,
+    "startingAt": true,
+    "staffIds": [
+      "lily",
+      "sherlyn",
+      "nicole",
+      "danna",
+      "kate",
+      "liz"
+    ]
+  },
+  {
+    "id": "pedi-deluxe",
+    "category": "Nails \u2014 Pedicures",
+    "name": "Deluxe pedicure",
+    "description": "Mask, hot towels, paraffin option, polish.",
+    "durationMin": 70,
+    "priceCents": 4000,
+    "startingAt": true,
+    "staffIds": [
+      "lily",
+      "sherlyn",
+      "nicole",
+      "danna",
+      "kate",
+      "liz"
+    ]
+  },
+  {
+    "id": "pedi-jelly",
+    "category": "Nails \u2014 Pedicures",
+    "name": "Jelly pedicure",
+    "description": "Jelly soak, exfoliation, mask, massage.",
+    "durationMin": 75,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "lily",
+      "sherlyn",
+      "nicole",
+      "danna",
+      "kate",
+      "liz"
+    ]
+  },
+  {
+    "id": "pedi-volcanic",
+    "category": "Nails \u2014 Pedicures",
+    "name": "Volcanic pedicure",
+    "description": "Detox soak, clay mask, hot stone massage.",
+    "durationMin": 90,
+    "priceCents": 6500,
+    "startingAt": true,
+    "staffIds": [
+      "lily",
+      "sherlyn",
+      "nicole",
+      "danna",
+      "kate",
+      "liz"
+    ]
+  },
+  {
+    "id": "pedi-little-diva",
+    "category": "Nails \u2014 Pedicures",
+    "name": "Little Divas pedicure",
+    "description": "Kids\u2019 pedicure.",
+    "durationMin": 35,
+    "priceCents": 2000,
+    "startingAt": true,
+    "staffIds": [
+      "lily",
+      "sherlyn",
+      "nicole",
+      "danna",
+      "kate",
+      "liz"
+    ]
+  },
+  {
+    "id": "hair-wash-cut-style",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Wash, cut & style",
+    "description": "Shampoo, cut, and finish.",
+    "durationMin": 60,
+    "priceCents": 4000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-wash-blowout",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Wash + blowout / style",
+    "description": "Shampoo and blow-dry style.",
+    "durationMin": 45,
+    "priceCents": 4500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-womens-cut",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Women\u2019s haircut",
+    "description": "Cut and finish.",
+    "durationMin": 45,
+    "priceCents": 2500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-mens-cut",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Men\u2019s haircut",
+    "description": "Cut and style.",
+    "durationMin": 30,
+    "priceCents": 2000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-keratin",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Keratin treatment",
+    "description": "Smoothing treatment.",
+    "durationMin": 90,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-hydrate",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Hydrate treatment",
+    "description": "Deep moisture treatment.",
+    "durationMin": 60,
+    "priceCents": 6500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-bang-trim",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Bang trim",
+    "description": "Quick fringe trim.",
+    "durationMin": 15,
+    "priceCents": 500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-perm",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Perm",
+    "description": "Perm service.",
+    "durationMin": 90,
+    "priceCents": 4500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "hair-updo",
+    "category": "Hair \u2014 Cuts & styling",
+    "name": "Updo / formal style",
+    "description": "Formal styling and updos for events.",
+    "durationMin": 75,
+    "priceCents": 4500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-retouch",
+    "category": "Hair \u2014 Color",
+    "name": "Color retouch",
+    "description": "Root touch-up.",
+    "durationMin": 90,
+    "priceCents": 6500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-gloss-toner",
+    "category": "Hair \u2014 Color",
+    "name": "Gloss / toner",
+    "description": "Shine refresh.",
+    "durationMin": 45,
+    "priceCents": 4000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-balayage",
+    "category": "Hair \u2014 Color",
+    "name": "Balayage",
+    "description": "Hand-painted highlights.",
+    "durationMin": 180,
+    "priceCents": 18000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-cap-highlights",
+    "category": "Hair \u2014 Color",
+    "name": "Cap highlights",
+    "description": "Cap highlight service.",
+    "durationMin": 90,
+    "priceCents": 8000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-highlights",
+    "category": "Hair \u2014 Color",
+    "name": "Highlights",
+    "description": "Foil or partial highlights.",
+    "durationMin": 120,
+    "priceCents": 10000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-full",
+    "category": "Hair \u2014 Color",
+    "name": "All-over color",
+    "description": "Single process color.",
+    "durationMin": 90,
+    "priceCents": 9000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-mini-foil",
+    "category": "Hair \u2014 Color",
+    "name": "Mini foil",
+    "description": "Partial foil accents.",
+    "durationMin": 60,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "color-lowlight",
+    "category": "Hair \u2014 Color",
+    "name": "Lowlight",
+    "description": "Depth and dimension.",
+    "durationMin": 75,
+    "priceCents": 4500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "ext-sew-in-weft",
+    "category": "Hair \u2014 Extensions",
+    "name": "Sew-in weft install",
+    "description": "Weft sew-in.",
+    "durationMin": 180,
+    "priceCents": 13500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "ext-hidden-weft",
+    "category": "Hair \u2014 Extensions",
+    "name": "Hidden weft install",
+    "description": "Concealed weft method.",
+    "durationMin": 240,
+    "priceCents": 22000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "ext-itip",
+    "category": "Hair \u2014 Extensions",
+    "name": "I-tip install",
+    "description": "Individual strand install.",
+    "durationMin": 150,
+    "priceCents": 11500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "ext-tape-in",
+    "category": "Hair \u2014 Extensions",
+    "name": "Tape-in install",
+    "description": "Tape weft install.",
+    "durationMin": 120,
+    "priceCents": 10500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "ext-ktip",
+    "category": "Hair \u2014 Extensions",
+    "name": "K-tip install",
+    "description": "Keratin fusion install.",
+    "durationMin": 180,
+    "priceCents": 15000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "ipl-face-1",
+    "category": "IPL \u2014 Face",
+    "name": "IPL \u2014 face (1 session)",
+    "description": "Single session.",
+    "durationMin": 30,
+    "priceCents": 2000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-face-10",
+    "category": "IPL \u2014 Face",
+    "name": "IPL \u2014 face (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 30,
+    "priceCents": 17500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-facial-lift-1",
+    "category": "IPL \u2014 Face",
+    "name": "IPL \u2014 facial lift (1 session)",
+    "description": "Single session.",
+    "durationMin": 40,
+    "priceCents": 4000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-facial-lift-10",
+    "category": "IPL \u2014 Face",
+    "name": "IPL \u2014 facial lift (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 40,
+    "priceCents": 37500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-underarms-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 underarms (1 session)",
+    "description": "Single session.",
+    "durationMin": 25,
+    "priceCents": 2500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-underarms-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 underarms (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 25,
+    "priceCents": 23500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-arms-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full arms (1 session)",
+    "description": "Single session.",
+    "durationMin": 45,
+    "priceCents": 7000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-arms-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full arms (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 45,
+    "priceCents": 67500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-half-arms-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 half arms (1 session)",
+    "description": "Single session.",
+    "durationMin": 40,
+    "priceCents": 6000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-half-arms-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 half arms (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 40,
+    "priceCents": 57500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-legs-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full legs (1 session)",
+    "description": "Single session.",
+    "durationMin": 60,
+    "priceCents": 8000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-legs-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full legs (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 60,
+    "priceCents": 77500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-half-legs-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 half legs (1 session)",
+    "description": "Single session.",
+    "durationMin": 50,
+    "priceCents": 6500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-half-legs-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 half legs (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 50,
+    "priceCents": 62500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-stomach-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full stomach (1 session)",
+    "description": "Single session.",
+    "durationMin": 45,
+    "priceCents": 7000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-stomach-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full stomach (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 45,
+    "priceCents": 67500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-back-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full back (1 session)",
+    "description": "Single session.",
+    "durationMin": 45,
+    "priceCents": 5500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-back-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full back (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 45,
+    "priceCents": 52500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-chest-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full chest (1 session)",
+    "description": "Single session.",
+    "durationMin": 45,
+    "priceCents": 5500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-chest-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full chest (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 45,
+    "priceCents": 52500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-buttocks-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 buttocks (1 session)",
+    "description": "Single session.",
+    "durationMin": 35,
+    "priceCents": 3000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-buttocks-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 buttocks (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 35,
+    "priceCents": 27500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-brazilian-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 Brazilian (1 session)",
+    "description": "Single session.",
+    "durationMin": 45,
+    "priceCents": 5000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-brazilian-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 Brazilian (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 45,
+    "priceCents": 47500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-bikini-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 bikini (1 session)",
+    "description": "Single session.",
+    "durationMin": 40,
+    "priceCents": 4000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-bikini-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 bikini (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 40,
+    "priceCents": 37500,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-body-1",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full body (1 session)",
+    "description": "Single session.",
+    "durationMin": 90,
+    "priceCents": 12000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "ipl-full-body-10",
+    "category": "IPL \u2014 Body",
+    "name": "IPL \u2014 full body (10 sessions)",
+    "description": "Prepaid package.",
+    "durationMin": 90,
+    "priceCents": 120000,
+    "startingAt": false,
+    "staffIds": [
+      "lily"
+    ]
+  },
+  {
+    "id": "wax-eyebrows",
+    "category": "Waxing",
+    "name": "Eyebrows",
+    "description": "Brow wax / shape.",
+    "durationMin": 20,
+    "priceCents": 1500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "wax-upper-lip",
+    "category": "Waxing",
+    "name": "Upper lip",
+    "description": "Lip wax.",
+    "durationMin": 15,
+    "priceCents": 1000,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-nose",
+    "category": "Waxing",
+    "name": "Nose",
+    "description": "Nose wax.",
+    "durationMin": 15,
+    "priceCents": 1000,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-ears",
+    "category": "Waxing",
+    "name": "Ears",
+    "description": "Ear wax.",
+    "durationMin": 15,
+    "priceCents": 1000,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-underarms",
+    "category": "Waxing",
+    "name": "Underarms",
+    "description": "Underarm wax.",
+    "durationMin": 25,
+    "priceCents": 2500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "wax-full-face",
+    "category": "Waxing",
+    "name": "Full face",
+    "description": "Full face wax.",
+    "durationMin": 35,
+    "priceCents": 4500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-half-leg",
+    "category": "Waxing",
+    "name": "Half leg",
+    "description": "Lower or upper half.",
+    "durationMin": 45,
+    "priceCents": 4500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-full-leg",
+    "category": "Waxing",
+    "name": "Full leg",
+    "description": "Full leg wax.",
+    "durationMin": 55,
+    "priceCents": 6500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-chest-or-back",
+    "category": "Waxing",
+    "name": "Chest or back",
+    "description": "Choose area.",
+    "durationMin": 45,
+    "priceCents": 4500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-stomach",
+    "category": "Waxing",
+    "name": "Stomach",
+    "description": "Stomach wax.",
+    "durationMin": 25,
+    "priceCents": 2000,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-bikini",
+    "category": "Waxing",
+    "name": "Bikini",
+    "description": "Bikini line.",
+    "durationMin": 40,
+    "priceCents": 5500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "wax-brazilian",
+    "category": "Waxing",
+    "name": "Brazilian",
+    "description": "Brazilian wax.",
+    "durationMin": 50,
+    "priceCents": 8500,
+    "startingAt": false,
+    "staffIds": [
+      "elsa"
+    ]
+  },
+  {
+    "id": "facial-basic",
+    "category": "Facials",
+    "name": "Basic facial",
+    "description": "Cleanse, exfoliation, SPF, lip mask.",
+    "durationMin": 50,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "facial-deep",
+    "category": "Facials",
+    "name": "Deep cleaning facial",
+    "description": "Steam, extractions, mask, SPF.",
+    "durationMin": 70,
+    "priceCents": 9000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "facial-holistic",
+    "category": "Facials",
+    "name": "Holistic facial",
+    "description": "Massage, wood therapy, mask, serums.",
+    "durationMin": 75,
+    "priceCents": 7500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "facial-back",
+    "category": "Facials",
+    "name": "Back facial",
+    "description": "Back treatment with mask.",
+    "durationMin": 50,
+    "priceCents": 5500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "facial-hydrating",
+    "category": "Facials",
+    "name": "Hydrating facial",
+    "description": "Moisture-focused facial.",
+    "durationMin": 55,
+    "priceCents": 7000,
+    "startingAt": true,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "makeup-application",
+    "category": "Makeup",
+    "name": "Makeup application",
+    "description": "Event, photos, or special occasion \u2014 consult when you book.",
+    "durationMin": 60,
+    "priceCents": 5500,
+    "startingAt": true,
+    "staffIds": [
+      "elsa",
+      "lily"
+    ]
+  },
+  {
+    "id": "head-basic",
+    "category": "Korean scalp & head spa",
+    "name": "Head spa \u2014 Basic",
+    "description": "Shampoo, scalp massage, hair mask, neck massage, face mask. ~45 min.",
+    "durationMin": 45,
+    "priceCents": 6500,
+    "startingAt": false,
+    "staffIds": [
+      "nicole",
+      "lily"
+    ]
+  },
+  {
+    "id": "head-deluxe",
+    "category": "Korean scalp & head spa",
+    "name": "Head spa \u2014 Deluxe",
+    "description": "Steamer hair mask, hot towels, ice roller. ~1 hr.",
+    "durationMin": 60,
+    "priceCents": 9000,
+    "startingAt": false,
+    "staffIds": [
+      "nicole",
+      "lily"
+    ]
+  },
+  {
+    "id": "head-vip",
+    "category": "Korean scalp & head spa",
+    "name": "Head spa \u2014 V.I.P",
+    "description": "Herbal therapy, paraffin, mini facial. ~1.5 hr.",
+    "durationMin": 90,
+    "priceCents": 15000,
+    "startingAt": false,
+    "staffIds": [
+      "nicole",
+      "lily"
+    ]
+  },
+  {
+    "id": "lash-lift",
+    "category": "Lashes & brows",
+    "name": "Lash lift",
+    "description": "Lift and tint style service.",
+    "durationMin": 60,
+    "priceCents": 5000,
+    "startingAt": false,
+    "staffIds": [
+      "danna"
+    ]
+  },
+  {
+    "id": "brow-lamination",
+    "category": "Lashes & brows",
+    "name": "Brow lamination",
+    "description": "Fluffy brow styling.",
+    "durationMin": 60,
+    "priceCents": 5000,
+    "startingAt": false,
+    "staffIds": [
+      "danna"
+    ]
+  },
+  {
+    "id": "threading",
+    "category": "Lashes & brows",
+    "name": "Threading",
+    "description": "Starting price \u2014 area may vary.",
+    "durationMin": 25,
+    "priceCents": 1500,
+    "startingAt": true,
+    "staffIds": [
+      "danna"
+    ]
+  },
+  {
+    "id": "combo-mani-pedi",
+    "category": "Combos",
+    "name": "Classic mani + basic pedi",
+    "description": "Booked together \u2014 classic manicure and basic pedicure.",
+    "durationMin": 105,
+    "priceCents": 5000,
+    "startingAt": true,
+    "staffIds": [
+      "kate",
+      "nicole",
+      "sherlyn",
+      "danna",
+      "liz"
+    ]
+  }
+]

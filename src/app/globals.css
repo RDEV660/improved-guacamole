@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  /* ~5.8:1 on #0a0a0a for body-sized text (WCAG AA) */
+  --muted: #b5b5b5;
+  --card: #121212;
+  --border: #2a2a2a;
+  --primary: #ff2d78;
+  --primary-foreground: #ffffff;
+  --accent: #ff85b4;
+  /* Logo / secondary pink */
+  --brand-pink: #e91e8c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-cormorant);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+/* Booking wizard: horizontal category / step strips — keep scroll usable (do not hide bars). */
+.booking-h-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--primary) 45%, transparent) transparent;
+}
+
+.booking-h-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.booking-h-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--primary) 50%, transparent);
+}
+
+.booking-h-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Service list: vertical scroll + taps (avoid pan-x confusion from category strip). */
+.booking-services-scroll {
+  touch-action: pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Skip to main — visible on keyboard focus */
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}
+
+/* Screen-reader-only headings (booking steps, etc.) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Subtle film grain on hero (disabled when user prefers reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-grain::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Card / CTA motion — respect reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .lilys-card-hover {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .lilys-card-hover:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 45, 120, 0.35);
+    box-shadow: 0 16px 48px -20px rgba(0, 0, 0, 0.65);
+  }
+
+  .lilys-btn-motion {
+    transition:
+      transform 0.15s ease,
+      opacity 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .lilys-btn-motion:hover {
+    transform: translateY(-1px);
+  }
+
+  .lilys-btn-motion:active {
+    transform: translateY(0);
+  }
+}

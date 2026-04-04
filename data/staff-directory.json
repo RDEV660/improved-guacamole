@@ -1,0 +1,11 @@
+{
+  "members": [
+    { "id": "lily", "name": "Lily", "role": "Owner" },
+    { "id": "sherlyn", "name": "Sherlyn", "role": "Manager" },
+    { "id": "nicole", "name": "Nicole" },
+    { "id": "danna", "name": "Danna" },
+    { "id": "kate", "name": "Kate" },
+    { "id": "liz", "name": "Liz" },
+    { "id": "elsa", "name": "Elsa" }
+  ]
+}
