@@ -55,6 +55,23 @@ const STEP_LABELS: Record<Step, string> = {
 /** Empty = not chosen yet; "any" = no preference */
 const STAFF_ANY = "any";
 
+async function readResponseJson<T>(res: Response): Promise<{ data: T | null; raw: string }> {
+  const raw = await res.text();
+  try {
+    return { data: JSON.parse(raw) as T, raw };
+  } catch {
+    return { data: null, raw };
+  }
+}
+
+function isLikelyNetworkFailure(e: unknown): boolean {
+  if (!(e instanceof Error)) return false;
+  return (
+    e.name === "TypeError" ||
+    /failed to fetch|networkerror|load failed|network request failed/i.test(e.message)
+  );
+}
+
 function addDays(base: Date, n: number): Date {
   const d = new Date(base);
   d.setDate(d.getDate() + n);
@@ -467,9 +484,14 @@ export function BookingWizard() {
           },
         }),
       });
-      const tokJson = (await tokRes.json()) as { id?: string; error?: string };
-      if (!tokRes.ok || !tokJson.id) {
-        setFormError(tokJson.error ?? "Card could not be verified. Check details or try another card.");
+      const tokParsed = await readResponseJson<{ id?: string; error?: string }>(tokRes);
+      if (!tokRes.ok || !tokParsed.data?.id) {
+        setFormError(
+          tokParsed.data?.error ??
+            (tokParsed.data === null && tokParsed.raw
+              ? `Payment service returned an invalid response (${tokRes.status}). Try again or call us.`
+              : "Card could not be verified. Check details or try another card.")
+        );
         return;
       }
 
@@ -484,12 +506,21 @@ export function BookingWizard() {
           preferredStaffId,
           date,
           startTime,
-          sourceToken: tokJson.id,
+          sourceToken: tokParsed.data.id,
         }),
       });
-      const confJson = (await confRes.json()) as { ok?: boolean; bookingId?: string; error?: string };
-      if (!confRes.ok || !confJson.ok || !confJson.bookingId) {
-        setFormError(confJson.error ?? "Payment or booking failed.");
+      const confParsed = await readResponseJson<{
+        ok?: boolean;
+        bookingId?: string;
+        error?: string;
+      }>(confRes);
+      if (!confRes.ok || !confParsed.data?.ok || !confParsed.data?.bookingId) {
+        setFormError(
+          confParsed.data?.error ??
+            (confParsed.data === null && confParsed.raw
+              ? `Booking service returned an invalid response (${confRes.status}). Try again or call us.`
+              : "Payment or booking failed.")
+        );
         return;
       }
       try {
@@ -497,9 +528,13 @@ export function BookingWizard() {
       } catch {
         /* ignore */
       }
-      setDone({ bookingId: confJson.bookingId });
-    } catch {
-      setFormError("Something went wrong. Please try again.");
+      setDone({ bookingId: confParsed.data.bookingId });
+    } catch (e) {
+      setFormError(
+        isLikelyNetworkFailure(e)
+          ? "Could not reach the server (network error). Use the same URL as this page (e.g. http://localhost:3000 if you are developing), check your connection, and try again."
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }

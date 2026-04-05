@@ -54,8 +54,15 @@ export async function saveStaffAbsences(data: AbsencesFile): Promise<void> {
     await redisSetJson(REDIS_KEYS.staffAbsences, data);
     return;
   }
-  await ensureDataFile();
-  await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), "utf8");
+  try {
+    await ensureDataFile();
+    await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), "utf8");
+  } catch (err) {
+    console.error("[staff-absences-store] save failed", err);
+    throw new Error(
+      "Could not save attendance to disk. On Vercel or other serverless hosts, set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN so data persists."
+    );
+  }
 }
 
 export function absentStaffSetForDate(

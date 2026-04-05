@@ -23,7 +23,9 @@ export function AttendanceEditor({ initialDateYMD }: Props) {
     setLoading(true);
     setErr(null);
     try {
-      const res = await fetch(`/api/admin/staff-absences?date=${encodeURIComponent(ymd)}`);
+      const res = await fetch(`/api/admin/staff-absences?date=${encodeURIComponent(ymd)}`, {
+        credentials: "same-origin",
+      });
       const data = (await res.json()) as {
         error?: string;
         absentStaffIds?: string[];
@@ -59,8 +61,16 @@ export function AttendanceEditor({ initialDateYMD }: Props) {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ date, absentStaffIds: [...absent] }),
+        credentials: "same-origin",
       });
-      const data = (await res.json()) as { error?: string };
+      const text = await res.text();
+      let data: { error?: string };
+      try {
+        data = JSON.parse(text) as { error?: string };
+      } catch {
+        setErr("Save failed — server returned an invalid response. Check the console or try again.");
+        return;
+      }
       if (!res.ok) {
         setErr(data.error ?? "Save failed.");
         return;

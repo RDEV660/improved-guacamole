@@ -90,6 +90,12 @@ export async function PUT(req: Request) {
     }
   }
 
-  await setAbsentStaffForDate(date, ids);
-  return NextResponse.json({ ok: true });
+  try {
+    await setAbsentStaffForDate(date, ids);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Save failed.";
+    console.error("[staff-absences PUT]", e);
+    return NextResponse.json({ error: message }, { status: 503 });
+  }
 }
