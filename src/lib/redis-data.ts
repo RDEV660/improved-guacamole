@@ -28,20 +28,37 @@ export const REDIS_KEYS = {
   cloverOAuth: "lilys:data:clover-oauth",
 } as const;
 
+/**
+ * Upstash client's GET auto-deserializes JSON strings into objects/arrays.
+ * Do not JSON.parse again or loads always return null.
+ */
 export async function redisGetJson<T>(key: string): Promise<T | null> {
   const r = getRedis();
   if (!r) return null;
-  const raw = await r.get<string>(key);
+  const raw: unknown = await r.get(key);
   if (raw == null || raw === "") return null;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return null;
+  if (typeof raw === "object") {
+    return raw as T;
   }
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw) as T;
+    } catch {
+      return null;
+    }
+  }
+  return null;
 }
 
 export async function redisSetJson(key: string, value: unknown): Promise<void> {
   const r = getRedis();
   if (!r) throw new Error("Redis is not configured.");
-  await r.set(key, JSON.stringify(value));
+  try {
+    await r.set(key, JSON.stringify(value));
+  } catch (e) {
+    console.error("[redisSetJson]", key, e);
+    throw new Error(
+      "Could not write to Redis. Check UPSTASH_REDIS_* or KV_REST_API_URL / KV_REST_API_TOKEN."
+    );
+  }
 }

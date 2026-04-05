@@ -126,6 +126,9 @@ export function BookingWizard() {
   > | null>(null);
   const [rangeLoading, setRangeLoading] = useState(false);
   const [rangeError, setRangeError] = useState<string | null>(null);
+  /** YMD -> staff ids marked absent (from public API; null = not loaded yet). */
+  const [absentByDate, setAbsentByDate] = useState<Record<string, string[]> | null>(null);
+  const [staffAbsenceNotice, setStaffAbsenceNotice] = useState<string | null>(null);
   const stepScrollRef = useRef<HTMLDivElement>(null);
 
   const today = useMemo(() => new Date(), []);
@@ -159,6 +162,43 @@ export function BookingWizard() {
   }, [selectedIds]);
 
   const eligibleStaffIds = useMemo(() => getStaffEligibleForServices(selectedIds), [selectedIds]);
+
+  const fetchAbsencesCalendar = useCallback(async () => {
+    if (dateOptionYMDs.length === 0) return;
+    const from = dateOptionYMDs[0];
+    const to = dateOptionYMDs[dateOptionYMDs.length - 1];
+    try {
+      const res = await fetch(
+        `/api/bookings/absences-calendar?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`
+      );
+      const { data } = await readResponseJson<{ absentByDate?: Record<string, string[]> }>(res);
+      if (res.ok && data?.absentByDate && typeof data.absentByDate === "object") {
+        setAbsentByDate(data.absentByDate);
+      } else {
+        setAbsentByDate({});
+      }
+    } catch {
+      setAbsentByDate({});
+    }
+  }, [dateOptionYMDs]);
+
+  /** Absent on every day in the booking calendar → cannot be chosen as provider for this flow. */
+  const staffAbsentEntireWindow = useMemo(() => {
+    const out = new Set<string>();
+    if (!absentByDate || dateOptionYMDs.length === 0) return out;
+    for (const id of eligibleStaffIds) {
+      let every = true;
+      for (const ymd of dateOptionYMDs) {
+        const list = absentByDate[ymd];
+        if (!Array.isArray(list) || !list.includes(id)) {
+          every = false;
+          break;
+        }
+      }
+      if (every) out.add(id);
+    }
+    return out;
+  }, [absentByDate, eligibleStaffIds, dateOptionYMDs]);
 
   const searchResults = useMemo(
     () => filterServicesByQuery(serviceSearch),
@@ -270,6 +310,26 @@ export function BookingWizard() {
       setStaffChoice(STAFF_ANY);
     }
   }, [eligibleStaffIds, staffChoice]);
+
+  useEffect(() => {
+    if (step < 2 || selectedIds.length === 0) return;
+    void fetchAbsencesCalendar();
+  }, [step, selectedIds, fetchAbsencesCalendar]);
+
+  useEffect(() => {
+    if (staffChoice === STAFF_ANY || !staffAbsentEntireWindow.has(staffChoice)) return;
+    setStaffChoice(STAFF_ANY);
+  }, [staffAbsentEntireWindow, staffChoice]);
+
+  useEffect(() => {
+    if (!date || staffChoice === STAFF_ANY || !absentByDate?.[date]?.includes(staffChoice)) return;
+    setStaffAbsenceNotice(
+      "That provider is off on the date you selected. Switched to first available."
+    );
+    setStaffChoice(STAFF_ANY);
+    const tid = window.setTimeout(() => setStaffAbsenceNotice(null), 6000);
+    return () => window.clearTimeout(tid);
+  }, [date, staffChoice, absentByDate]);
 
   useEffect(() => {
     if (grouped.length === 0) return;
@@ -863,9 +923,22 @@ export function BookingWizard() {
 
           {step === 2 ? (
             <div className="space-y-3">
+              {staffAbsenceNotice ? (
+                <p
+                  className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-100 sm:text-sm"
+                  role="status"
+                >
+                  {staffAbsenceNotice}
+                </p>
+              ) : null}
               <p className="flex items-center gap-2 text-xs text-muted sm:text-sm">
                 <Users className="size-4 shrink-0 text-primary" aria-hidden />
                 Only staff who can do your whole cart are shown. Pick one or &quot;No preference&quot;.
+              </p>
+              <p className="text-xs text-muted">
+                Providers marked <span className="text-foreground/80">off all open dates</span> can&apos;t be
+                chosen here; use <span className="font-medium text-foreground">No preference</span> or another
+                team member.
               </p>
               <p className="text-xs leading-relaxed text-muted">
                 Need different providers or separate times for different services? Finish this booking,
@@ -889,19 +962,34 @@ export function BookingWizard() {
                   const member = getStaffById(id);
                   if (!member) return null;
                   const on = staffChoice === id;
+                  const offWindow = staffAbsentEntireWindow.has(id);
                   return (
                     <button
                       key={id}
                       type="button"
-                      onClick={() => setStaffChoice(id)}
-                      className={`cursor-pointer touch-manipulation rounded-xl border px-3 py-3 text-left transition-colors ${
-                        on
-                          ? "border-primary bg-primary/10 ring-2 ring-primary/40"
-                          : "border-border bg-background hover:border-primary/35"
+                      disabled={offWindow}
+                      title={
+                        offWindow
+                          ? "Not available on any day in the booking window — choose No preference or another provider."
+                          : undefined
+                      }
+                      onClick={() => {
+                        if (!offWindow) setStaffChoice(id);
+                      }}
+                      className={`touch-manipulation rounded-xl border px-3 py-3 text-left transition-colors ${
+                        offWindow
+                          ? "cursor-not-allowed border-border bg-muted/30 opacity-60"
+                          : `cursor-pointer ${
+                              on
+                                ? "border-primary bg-primary/10 ring-2 ring-primary/40"
+                                : "border-border bg-background hover:border-primary/35"
+                            }`
                       }`}
                     >
                       <span className="text-sm font-semibold text-foreground">{member.name}</span>
-                      {member.role ? (
+                      {offWindow ? (
+                        <span className="mt-0.5 block text-xs text-muted">Off all open dates</span>
+                      ) : member.role ? (
                         <span className="mt-0.5 block text-xs text-muted">{member.role}</span>
                       ) : null}
                     </button>
@@ -913,6 +1001,14 @@ export function BookingWizard() {
 
           {step === 3 ? (
             <div className="max-w-2xl space-y-4">
+              {staffAbsenceNotice ? (
+                <p
+                  className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-100 sm:text-sm"
+                  role="status"
+                >
+                  {staffAbsenceNotice}
+                </p>
+              ) : null}
               <p className="flex items-center gap-2 text-sm text-muted">
                 <Calendar className="size-4 text-primary" aria-hidden />
                 Next {BOOKING_MAX_DAYS_AHEAD + 1} days · {formatPriceUSD(totals.cents)} ·{" "}

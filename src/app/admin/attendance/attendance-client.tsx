@@ -76,6 +76,7 @@ export function AttendanceEditor({ initialDateYMD }: Props) {
         return;
       }
       setMsg("Saved. Online booking will skip absent providers for this date.");
+      await loadForDate(date);
       router.refresh();
     } catch {
       setErr("Save failed.");

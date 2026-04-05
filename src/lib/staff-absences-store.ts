@@ -60,7 +60,7 @@ export async function saveStaffAbsences(data: AbsencesFile): Promise<void> {
   } catch (err) {
     console.error("[staff-absences-store] save failed", err);
     throw new Error(
-      "Could not save attendance to disk. On Vercel or other serverless hosts, set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN so data persists."
+      "Could not save attendance to disk. On Vercel, set KV_REST_API_URL + KV_REST_API_TOKEN (or UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN) so data persists in Redis."
     );
   }
 }
