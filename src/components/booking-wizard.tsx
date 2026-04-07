@@ -17,7 +17,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  CreditCard,
   Loader2,
   MapPin,
   Phone,
@@ -29,9 +28,9 @@ import {
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-type Step = 1 | 2 | 3 | 4 | 5 | 6;
+type Step = 1 | 2 | 3 | 4 | 5;
 
-const DRAFT_KEY = "lilys-booking-draft-v7";
+const DRAFT_KEY = "lilys-booking-draft-v8";
 const REBOOKING_KEY = "lilys-booking-rebooking";
 
 const STEP_HEADINGS: Record<Step, string> = {
@@ -40,7 +39,6 @@ const STEP_HEADINGS: Record<Step, string> = {
   3: "Choose Date",
   4: "Choose Time",
   5: "Your Contact Details",
-  6: "Payment",
 };
 
 const STEP_LABELS: Record<Step, string> = {
@@ -49,7 +47,6 @@ const STEP_LABELS: Record<Step, string> = {
   3: "Date",
   4: "Time",
   5: "Contact",
-  6: "Pay",
 };
 
 /** Empty = not chosen yet; "any" = no preference */
@@ -110,11 +107,6 @@ export function BookingWizard() {
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expMonth, setExpMonth] = useState("");
-  const [expYear, setExpYear] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [cardBrand, setCardBrand] = useState("DISCOVER");
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [done, setDone] = useState<{ bookingId: string } | null>(null);
@@ -250,8 +242,12 @@ export function BookingWizard() {
       if (typeof d.customerName === "string") setCustomerName(d.customerName);
       if (typeof d.customerEmail === "string") setCustomerEmail(d.customerEmail);
       if (typeof d.customerPhone === "string") setCustomerPhone(d.customerPhone);
-      if (typeof d.step === "number" && d.step >= 1 && d.step <= 6) {
-        setStep(d.step as Step);
+      const rawStepUnknown = (d as { step?: unknown }).step;
+      const rawStep = typeof rawStepUnknown === "number" ? rawStepUnknown : null;
+      if (rawStep != null && rawStep >= 1 && rawStep <= 5) {
+        setStep(rawStep as Step);
+      } else if (rawStep === 6) {
+        setStep(5);
       }
 
       try {
@@ -513,18 +509,7 @@ export function BookingWizard() {
         return;
       }
     }
-    if (step === 5) {
-      if (!customerName.trim() || !customerEmail.trim() || !customerPhone.trim()) {
-        setFormError("Please fill in name, email, and phone.");
-        return;
-      }
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail.trim());
-      if (!emailOk) {
-        setFormError("Enter a valid email address.");
-        return;
-      }
-    }
-    if (step < 6) setStep((s) => (s + 1) as Step);
+    if (step < 5) setStep((s) => (s + 1) as Step);
   };
 
   const goBack = () => {
@@ -539,11 +524,22 @@ export function BookingWizard() {
     (step === 3 && !date) ||
     (step === 4 && (slotsLoading || (slots.length > 0 && !startTime)));
 
-  const pay = async () => {
+  const submitDisabled =
+    submitting ||
+    !customerName.trim() ||
+    !customerEmail.trim() ||
+    !customerPhone.trim() ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail.trim());
+
+  const submitBooking = async () => {
     setFormError(null);
-    const num = cardNumber.replace(/\s/g, "");
-    if (num.length < 13 || !expMonth || !expYear || cvv.length < 3) {
-      setFormError("Enter valid card details.");
+    if (!customerName.trim() || !customerEmail.trim() || !customerPhone.trim()) {
+      setFormError("Please fill in name, email, and phone.");
+      return;
+    }
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail.trim());
+    if (!emailOk) {
+      setFormError("Enter a valid email address.");
       return;
     }
 
@@ -551,30 +547,6 @@ export function BookingWizard() {
 
     setSubmitting(true);
     try {
-      const tokRes = await fetch("/api/clover/token", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          card: {
-            number: num,
-            exp_month: expMonth.padStart(2, "0"),
-            exp_year: expYear.length === 2 ? `20${expYear}` : expYear,
-            cvv,
-            brand: cardBrand,
-          },
-        }),
-      });
-      const tokParsed = await readResponseJson<{ id?: string; error?: string }>(tokRes);
-      if (!tokRes.ok || !tokParsed.data?.id) {
-        setFormError(
-          tokParsed.data?.error ??
-            (tokParsed.data === null && tokParsed.raw
-              ? `Payment service returned an invalid response (${tokRes.status}). Try again or call us.`
-              : "Card could not be verified. Check details or try another card.")
-        );
-        return;
-      }
-
       const confRes = await fetch("/api/bookings/confirm", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -586,7 +558,6 @@ export function BookingWizard() {
           preferredStaffId,
           date,
           startTime,
-          sourceToken: tokParsed.data.id,
         }),
       });
       const confParsed = await readResponseJson<{
@@ -599,7 +570,7 @@ export function BookingWizard() {
           confParsed.data?.error ??
             (confParsed.data === null && confParsed.raw
               ? `Booking service returned an invalid response (${confRes.status}). Try again or call us.`
-              : "Payment or booking failed.")
+              : "Could not complete booking. Please try again.")
         );
         return;
       }
@@ -628,7 +599,7 @@ export function BookingWizard() {
         </div>
         <h2 className="mt-6 font-display text-2xl font-semibold text-foreground">You&apos;re booked</h2>
         <p className="mt-2 text-sm text-muted">
-          Your payment went through. Save this reference:{" "}
+          Your appointment request was sent to Lily&apos;s. Save this reference:{" "}
           <span className="font-mono text-foreground">{done.bookingId}</span>
         </p>
         <div className="mt-6 space-y-3 text-left text-sm text-muted">
@@ -714,7 +685,7 @@ export function BookingWizard() {
             role="list"
             aria-label="Booking steps"
           >
-            {([1, 2, 3, 4, 5, 6] as const).map((n) => (
+            {([1, 2, 3, 4, 5] as const).map((n) => (
               <span
                 key={n}
                 role="listitem"
@@ -1163,6 +1134,10 @@ export function BookingWizard() {
                 <User className="size-4 text-primary" aria-hidden />
                 How can we reach you?
               </p>
+              <p className="text-xs text-muted">
+                No payment online — we&apos;ll create your appointment and reach out to confirm. Total for your
+                services: <span className="font-medium text-foreground">{formatPriceUSD(totals.cents)}</span>.
+              </p>
               <div>
                 <label className="block text-sm font-medium text-foreground" htmlFor="cust-name">
                   Full name
@@ -1203,93 +1178,6 @@ export function BookingWizard() {
               </div>
             </div>
           ) : null}
-
-          {step === 6 ? (
-            <div className="mx-auto max-w-md space-y-4">
-              <p className="flex items-center gap-2 text-sm text-muted">
-                <CreditCard className="size-4 text-primary" aria-hidden />
-                Pay {formatPriceUSD(totals.cents)} securely
-              </p>
-              <p className="text-xs text-muted">
-                Your card details are encrypted and processed by our payment partner. You&apos;ll only be
-                charged for the total shown above.
-              </p>
-              <div>
-                <label className="block text-sm font-medium text-foreground" htmlFor="card-brand">
-                  Card type
-                </label>
-                <select
-                  id="card-brand"
-                  value={cardBrand}
-                  onChange={(e) => setCardBrand(e.target.value)}
-                  className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                >
-                  <option value="DISCOVER">DISCOVER</option>
-                  <option value="VISA">VISA</option>
-                  <option value="MASTERCARD">MASTERCARD</option>
-                  <option value="AMEX">AMEX</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground" htmlFor="card-num">
-                  Card number
-                </label>
-                <input
-                  id="card-num"
-                  inputMode="numeric"
-                  autoComplete="cc-number"
-                  placeholder="•••• •••• •••• ••••"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                />
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-foreground" htmlFor="exp-m">
-                    MM
-                  </label>
-                  <input
-                    id="exp-m"
-                    inputMode="numeric"
-                    placeholder="12"
-                    maxLength={2}
-                    value={expMonth}
-                    onChange={(e) => setExpMonth(e.target.value.replace(/\D/g, "").slice(0, 2))}
-                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-foreground" htmlFor="exp-y">
-                    YY / YYYY
-                  </label>
-                  <input
-                    id="exp-y"
-                    inputMode="numeric"
-                    placeholder="30"
-                    maxLength={4}
-                    value={expYear}
-                    onChange={(e) => setExpYear(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-foreground" htmlFor="cvv">
-                    CVV
-                  </label>
-                  <input
-                    id="cvv"
-                    inputMode="numeric"
-                    autoComplete="cc-csc"
-                    maxLength={4}
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                </div>
-              </div>
-            </div>
-          ) : null}
         </div>
 
         <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
@@ -1302,7 +1190,7 @@ export function BookingWizard() {
             <ChevronLeft className="size-4" aria-hidden />
             Back
           </button>
-          {step < 6 ? (
+          {step < 5 ? (
             <button
               type="button"
               onClick={goNext}
@@ -1315,19 +1203,19 @@ export function BookingWizard() {
           ) : (
             <button
               type="button"
-              onClick={() => void pay()}
-              disabled={submitting}
+              onClick={() => void submitBooking()}
+              disabled={submitDisabled}
               className="inline-flex min-h-11 cursor-pointer touch-manipulation items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-95 disabled:pointer-events-none disabled:opacity-60 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card"
             >
               {submitting ? (
                 <>
                   <Loader2 className="size-4 animate-spin" aria-hidden />
-                  Processing…
+                  Sending…
                 </>
               ) : (
                 <>
-                  Pay {formatPriceUSD(totals.cents)}
-                  <CreditCard className="size-4" aria-hidden />
+                  Request appointment
+                  <Check className="size-4" aria-hidden />
                 </>
               )}
             </button>

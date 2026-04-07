@@ -3,8 +3,6 @@ import { resolveAssignedStaffId } from "@/lib/booking-availability";
 import { isYMDInBookingWindow } from "@/lib/business-schedule";
 import { getDayWindowForYMDWithBlackouts, timeToMinutes } from "@/lib/booking-hours";
 import { appendBooking, loadBookings } from "@/lib/bookings-store";
-import { getChargeBearerToken, refreshCloverTokensAndPersist } from "@/lib/clover-charge-auth";
-import { cloverEcomBaseUrl } from "@/lib/clover-config";
 import { sendNewBookingNotifications } from "@/lib/notify-booking";
 import { getMergedBlackoutDates } from "@/lib/salon-config";
 import { getServiceByIdForApi, getStaffEligibleForServicesForApi } from "@/lib/services-api";
@@ -12,14 +10,6 @@ import { absentStaffSetForDate, loadStaffAbsences } from "@/lib/staff-absences-s
 import { getStaffById } from "@/lib/staff";
 
 export const runtime = "nodejs";
-
-function clientIp(req: Request): string {
-  const xf = req.headers.get("x-forwarded-for");
-  if (xf) return xf.split(",")[0]?.trim() || "127.0.0.1";
-  const real = req.headers.get("x-real-ip");
-  if (real) return real.trim();
-  return "127.0.0.1";
-}
 
 export async function POST(req: Request) {
   let body: ConfirmBookingBody;
@@ -37,7 +27,6 @@ export async function POST(req: Request) {
     preferredStaffId: prefRaw,
     date,
     startTime,
-    sourceToken,
   } = body;
 
   const preferredStaffId =
@@ -52,10 +41,9 @@ export async function POST(req: Request) {
     !Array.isArray(serviceIds) ||
     serviceIds.length === 0 ||
     !date ||
-    !startTime ||
-    !sourceToken?.trim()
+    !startTime
   ) {
-    return Response.json({ error: "Missing required booking or payment fields." }, { status: 400 });
+    return Response.json({ error: "Missing required booking fields." }, { status: 400 });
   }
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -138,67 +126,6 @@ export async function POST(req: Request) {
     );
   }
 
-  let bearer = await getChargeBearerToken();
-  if (!bearer) {
-    const boot = await refreshCloverTokensAndPersist();
-    bearer = boot?.access_token;
-  }
-  if (!bearer) {
-    return Response.json(
-      {
-        error:
-          "Clover charge token missing. Set CLOVER_ACCESS_TOKEN, or CLOVER_APP_ID + CLOVER_REFRESH_TOKEN (and Redis on Vercel to persist refreshed tokens).",
-      },
-      { status: 503 }
-    );
-  }
-
-  const chargeUrl = `${cloverEcomBaseUrl()}/v1/charges`;
-  const chargeBody = JSON.stringify({
-    amount: totalCents,
-    currency: "usd",
-    source: sourceToken.trim(),
-  });
-
-  const postCharge = (auth: string) =>
-    fetch(chargeUrl, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-        authorization: `Bearer ${auth}`,
-        "x-forwarded-for": clientIp(req),
-      },
-      body: chargeBody,
-    });
-
-  let chargeRes = await postCharge(bearer);
-  if (chargeRes.status === 401) {
-    const refreshed = await refreshCloverTokensAndPersist();
-    if (refreshed?.access_token) {
-      chargeRes = await postCharge(refreshed.access_token);
-    }
-  }
-
-  const chargeText = await chargeRes.text();
-  let chargeJson: { id?: string; status?: string; message?: string };
-  try {
-    chargeJson = JSON.parse(chargeText) as typeof chargeJson;
-  } catch {
-    chargeJson = {};
-  }
-
-  if (!chargeRes.ok) {
-    return Response.json(
-      {
-        error: "Payment was declined or could not be processed.",
-        cloverStatus: chargeRes.status,
-        details: chargeJson,
-      },
-      { status: 402 }
-    );
-  }
-
   const booking: BookingRecord = {
     id: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
@@ -212,8 +139,7 @@ export async function POST(req: Request) {
     startTime,
     totalCents,
     durationMin,
-    cloverChargeId: chargeJson.id,
-    paymentStatus: "paid",
+    paymentStatus: "pending",
   };
 
   await appendBooking(booking);
@@ -225,7 +151,6 @@ export async function POST(req: Request) {
   return Response.json({
     ok: true,
     bookingId: booking.id,
-    cloverChargeId: chargeJson.id,
     amountCents: totalCents,
   });
 }

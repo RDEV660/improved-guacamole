@@ -27,6 +27,6 @@ export type ConfirmBookingBody = {
   preferredStaffId?: string | null;
   date: string;
   startTime: string;
-  /** Token from Clover (`clv_…`) */
-  sourceToken: string;
+  /** @deprecated Online card payment removed; field ignored if sent */
+  sourceToken?: string;
 };

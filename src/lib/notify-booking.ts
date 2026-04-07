@@ -26,7 +26,11 @@ export async function sendNewBookingNotifications(booking: BookingRecord): Promi
     `Services: ${booking.serviceIds.join(", ")}`,
     `Staff (assigned): ${booking.assignedStaffId ?? "—"}`,
     `Total: ${formatPriceUSD(booking.totalCents)}`,
-    `Payment: ${booking.paymentStatus}`,
+    `Payment: ${
+      booking.paymentStatus === "pending"
+        ? "Not collected online (appointment request)"
+        : booking.paymentStatus
+    }`,
     `Booking id: ${booking.id}`,
   ];
   const text = lines.join("\n");
