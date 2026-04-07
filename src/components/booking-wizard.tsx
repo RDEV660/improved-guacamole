@@ -200,6 +200,18 @@ export function BookingWizard() {
     return out;
   }, [absentByDate, eligibleStaffIds, dateOptionYMDs]);
 
+  /** Absent today → can't be selected as provider. */
+  const staffAbsentToday = useMemo(() => {
+    const out = new Set<string>();
+    if (!absentByDate || !minDate) return out;
+    const list = absentByDate[minDate];
+    if (!Array.isArray(list)) return out;
+    for (const id of list) {
+      if (typeof id === "string") out.add(id);
+    }
+    return out;
+  }, [absentByDate, minDate]);
+
   const searchResults = useMemo(
     () => filterServicesByQuery(serviceSearch),
     [serviceSearch]
@@ -320,6 +332,14 @@ export function BookingWizard() {
     if (staffChoice === STAFF_ANY || !staffAbsentEntireWindow.has(staffChoice)) return;
     setStaffChoice(STAFF_ANY);
   }, [staffAbsentEntireWindow, staffChoice]);
+
+  useEffect(() => {
+    if (staffChoice === STAFF_ANY || !staffAbsentToday.has(staffChoice)) return;
+    setStaffAbsenceNotice("That provider is marked absent today. Switched to No preference.");
+    setStaffChoice(STAFF_ANY);
+    const tid = window.setTimeout(() => setStaffAbsenceNotice(null), 6000);
+    return () => window.clearTimeout(tid);
+  }, [staffAbsentToday, staffChoice]);
 
   useEffect(() => {
     if (!date || staffChoice === STAFF_ANY || !absentByDate?.[date]?.includes(staffChoice)) return;
@@ -963,21 +983,25 @@ export function BookingWizard() {
                   if (!member) return null;
                   const on = staffChoice === id;
                   const offWindow = staffAbsentEntireWindow.has(id);
+                  const offToday = staffAbsentToday.has(id);
+                  const disabled = offWindow || offToday;
                   return (
                     <button
                       key={id}
                       type="button"
-                      disabled={offWindow}
+                      disabled={disabled}
                       title={
-                        offWindow
+                        offToday
+                          ? "Not available today — choose No preference or another provider."
+                          : offWindow
                           ? "Not available on any day in the booking window — choose No preference or another provider."
                           : undefined
                       }
                       onClick={() => {
-                        if (!offWindow) setStaffChoice(id);
+                        if (!disabled) setStaffChoice(id);
                       }}
                       className={`touch-manipulation rounded-xl border px-3 py-3 text-left transition-colors ${
-                        offWindow
+                        disabled
                           ? "cursor-not-allowed border-border bg-muted/30 opacity-60"
                           : `cursor-pointer ${
                               on
@@ -987,7 +1011,9 @@ export function BookingWizard() {
                       }`}
                     >
                       <span className="text-sm font-semibold text-foreground">{member.name}</span>
-                      {offWindow ? (
+                      {offToday ? (
+                        <span className="mt-0.5 block text-xs text-muted">Absent today</span>
+                      ) : offWindow ? (
                         <span className="mt-0.5 block text-xs text-muted">Off all open dates</span>
                       ) : member.role ? (
                         <span className="mt-0.5 block text-xs text-muted">{member.role}</span>

@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { salonTodayYMD } from "@/lib/business-schedule";
 import { getStaffById } from "@/lib/staff";
 import { isRedisDataConfigured, redisGetJson, redisSetJson, REDIS_KEYS } from "@/lib/redis-data";
 
@@ -80,10 +81,21 @@ export async function setAbsentStaffForDate(
 ): Promise<void> {
   const unique = [...new Set(absentStaffIds)].filter((id) => getStaffById(id));
   const all = await loadStaffAbsences();
+
+  // Simple attendance behavior: treat this as "today only".
+  // Any save replaces the whole map so it naturally resets each new day.
+  for (const k of Object.keys(all)) delete all[k];
+
   if (unique.length === 0) {
-    delete all[dateYMD];
+    // keep empty store
   } else {
     all[dateYMD] = unique;
+  }
+
+  // Safety: don't keep stale dates around if something wrote a past key.
+  const today = salonTodayYMD();
+  for (const k of Object.keys(all)) {
+    if (k < today) delete all[k];
   }
   await saveStaffAbsences(all);
 }

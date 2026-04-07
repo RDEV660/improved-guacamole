@@ -9,48 +9,42 @@ type Props = { initialDateYMD: string };
 
 export function AttendanceEditor({ initialDateYMD }: Props) {
   const router = useRouter();
-  const [date, setDate] = useState(initialDateYMD);
+  const date = initialDateYMD;
   const [staff, setStaff] = useState<StaffRow[]>([]);
   const [absent, setAbsent] = useState<Set<string>>(new Set());
-  const [minYMD, setMinYMD] = useState(initialDateYMD);
-  const [maxYMD, setMaxYMD] = useState(initialDateYMD);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
-  const loadForDate = useCallback(async (ymd: string) => {
+  const loadForToday = useCallback(async () => {
     setLoading(true);
     setErr(null);
     try {
-      const res = await fetch(`/api/admin/staff-absences?date=${encodeURIComponent(ymd)}`, {
+      const res = await fetch(`/api/admin/staff-absences?date=${encodeURIComponent(date)}`, {
         credentials: "same-origin",
       });
       const data = (await res.json()) as {
         error?: string;
         absentStaffIds?: string[];
         staff?: StaffRow[];
-        salonTodayYMD?: string;
-        salonMaxBookYMD?: string;
       };
       if (!res.ok) {
         setErr(data.error ?? "Could not load attendance.");
         return;
       }
       if (Array.isArray(data.staff)) setStaff(data.staff);
-      if (data.salonTodayYMD) setMinYMD(data.salonTodayYMD);
-      if (data.salonMaxBookYMD) setMaxYMD(data.salonMaxBookYMD);
       setAbsent(new Set(Array.isArray(data.absentStaffIds) ? data.absentStaffIds : []));
     } catch {
       setErr("Could not load attendance.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [date]);
 
   useEffect(() => {
-    void loadForDate(date);
-  }, [date, loadForDate]);
+    void loadForToday();
+  }, [loadForToday]);
 
   async function save() {
     setMsg(null);
@@ -75,8 +69,8 @@ export function AttendanceEditor({ initialDateYMD }: Props) {
         setErr(data.error ?? "Save failed.");
         return;
       }
-      setMsg("Saved. Online booking will skip absent providers for this date.");
-      await loadForDate(date);
+      setMsg("Saved. Online booking will skip absent providers today.");
+      await loadForToday();
       router.refresh();
     } catch {
       setErr("Save failed.");
@@ -101,21 +95,13 @@ export function AttendanceEditor({ initialDateYMD }: Props) {
   return (
     <div className="space-y-6">
       <p className="text-sm text-zinc-500">
-        Mark team members <strong className="text-zinc-300">absent</strong> for a given day. They will not receive new
-        online appointments that day; anyone not checked stays available (subject to existing bookings).
+        Mark team members <strong className="text-zinc-300">absent</strong> for <strong className="text-zinc-300">today</strong>. They will not receive
+        new online appointments today; anyone not checked stays available (subject to existing bookings).
       </p>
 
-      <label className="block text-sm">
-        <span className="text-zinc-500">Date</span>
-        <input
-          type="date"
-          value={date}
-          min={minYMD}
-          max={maxYMD}
-          onChange={(e) => setDate(e.target.value)}
-          className="mt-1 block rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-white"
-        />
-      </label>
+      <p className="text-sm text-zinc-400">
+        Date: <span className="font-mono text-zinc-200">{date}</span>
+      </p>
 
       {loading ? (
         <p className="text-zinc-500">Updating…</p>
