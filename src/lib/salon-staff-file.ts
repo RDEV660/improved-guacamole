@@ -59,7 +59,7 @@ export async function writeStaffDirectoryFile(data: StaffDirectoryFile): Promise
   await fs.writeFile(STAFF_PATH, JSON.stringify(parsed, null, 2), "utf8");
 }
 
-/** For display only — booking eligibility still uses code in staff.ts + services.ts */
+/** Maps stored staff file rows to display-friendly member objects. */
 export function toStaffMembers(file: StaffDirectoryFile): StaffMember[] {
   return file.members.map((m) => ({ id: m.id, name: m.name, role: m.role }));
 }

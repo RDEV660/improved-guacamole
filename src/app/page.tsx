@@ -5,7 +5,6 @@ import { TikTokIcon } from "@/components/tiktok-icon";
 import { TodaysHoursStrip } from "@/components/todays-hours-strip";
 import { SITE } from "@/lib/site";
 import {
-  CreditCard,
   Droplets,
   Facebook,
   Heart,
@@ -27,9 +26,9 @@ const HIGHLIGHTS = [
     body: "Stop By When It Works For You — We’re Happy To Fit You In When We Can.",
   },
   {
-    icon: CreditCard,
-    title: "Pay With Clover",
-    body: "Book Online And Pay Securely — We Process Cards Through Clover.",
+    icon: Phone,
+    title: "Call To Schedule",
+    body: "Give Us A Ring To Reserve Your Visit — We’ll Help You Find A Time That Works.",
   },
 ] as const;
 
@@ -57,12 +56,12 @@ const SERVICES = [
   {
     icon: Palette,
     title: "Makeup",
-    body: "Event-Ready Makeup And Soft Glam — Ask What’s Available When You Book For Photos, Parties, Or A Night Out.",
+    body: "Event-Ready Makeup And Soft Glam — Ask What’s Available When You Call For Photos, Parties, Or A Night Out.",
   },
   {
     icon: Sparkle,
     title: "Waxing",
-    body: "Smooth, Precise Waxing — Ask What Areas We Offer When You Book Or Walk In.",
+    body: "Smooth, Precise Waxing — Ask What Areas We Offer When You Call Or Walk In.",
   },
 ] as const;
 
@@ -119,15 +118,8 @@ export default function HomePage() {
           </p>
           <div className="mt-8 flex w-full max-w-2xl flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
-              href="/book"
-              className="lilys-btn-motion inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95 sm:flex-none"
-            >
-              <Sparkles className="size-4 shrink-0" aria-hidden />
-              Book Online
-            </a>
-            <a
               href={SITE.phoneTel}
-              className="lilys-btn-motion inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full border border-primary/50 bg-transparent px-6 text-sm font-semibold text-primary hover:bg-primary/10 sm:flex-none"
+              className="lilys-btn-motion inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-95 sm:flex-none"
             >
               <Phone className="size-4 shrink-0" aria-hidden />
               Call {SITE.phoneDisplay}
@@ -209,7 +201,7 @@ export default function HomePage() {
             <span className="font-medium text-foreground">
               Nails, Scalp, Hair, Facials, Makeup, Waxing, And Pedicures
             </span>{" "}
-            — Ask What&apos;s Right For You When You Book Or Arrive.
+            — Ask What&apos;s Right For You When You Call Or Arrive.
           </p>
           <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map(({ icon: Icon, title, body }) => (

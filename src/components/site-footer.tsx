@@ -2,7 +2,7 @@
 
 import { SITE } from "@/lib/site";
 import { TikTokIcon } from "@/components/tiktok-icon";
-import { Calendar, Facebook, Instagram, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,13 +28,13 @@ export function SiteFooter() {
             </p>
           </div>
           <div className="flex flex-col gap-3 text-sm">
-            <Link
-              href="/book"
+            <a
+              href={SITE.phoneTel}
               className="inline-flex items-center gap-2 rounded-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card"
             >
-              <Calendar className="size-4 shrink-0" aria-hidden />
-              Book online
-            </Link>
+              <Phone className="size-4 shrink-0" aria-hidden />
+              Call to book
+            </a>
             <a
               href={SITE.mapsDirections}
               target="_blank"

@@ -6,12 +6,9 @@ import { usePathname } from "next/navigation";
 
 const LINKS = [
   { href: "/admin", label: "Dashboard" },
-  { href: "/admin/appointments", label: "Appointments" },
-  { href: "/admin/attendance", label: "Attendance" },
-  { href: "/admin/settings", label: "Look & email" },
+  { href: "/admin/settings", label: "Look" },
   { href: "/admin/deals", label: "Deals" },
   { href: "/admin/staff", label: "Team" },
-  { href: "/admin/services", label: "Services" },
 ] as const;
 
 export function AdminShell({ children }: { children: React.ReactNode }) {

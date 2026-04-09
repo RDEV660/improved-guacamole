@@ -5,31 +5,20 @@ export default function AdminDashboardPage() {
     <div>
       <h1 className="font-display text-3xl font-semibold text-white">Dashboard</h1>
       <p className="mt-2 text-zinc-400">
-        Simple tools for your salon—no code. Pick colors, who gets booking emails, team names, deals, and services.
+        Simple tools for your salon—no code. Pick colors, team names, and deals for the site.
       </p>
       <ul className="mt-8 grid gap-3 sm:grid-cols-2">
         {[
-          { href: "/admin/appointments", title: "Appointments", desc: "See who booked and when." },
-          {
-            href: "/admin/attendance",
-            title: "Provider attendance",
-            desc: "Mark who is absent so online booking skips them for that day.",
-          },
           {
             href: "/admin/settings",
-            title: "Look & email",
-            desc: "Website colors, closed days, and email alerts for new bookings.",
+            title: "Look",
+            desc: "Website colors and branding.",
           },
           { href: "/admin/deals", title: "Deals", desc: "Special offers and promos you can show on the site." },
           {
             href: "/admin/staff",
             title: "Team",
-            desc: "Staff names and roles. (Online booking may still use the built-in provider list until updated.)",
-          },
-          {
-            href: "/admin/services",
-            title: "Services",
-            desc: "What clients can book—edit names, prices, and lengths here.",
+            desc: "Staff names and roles shown on the site.",
           },
         ].map((x) => (
           <li key={x.href}>

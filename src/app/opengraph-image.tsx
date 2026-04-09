@@ -61,7 +61,7 @@ export default function OpenGraphImage() {
               color: "#b5b5b5",
             }}
           >
-            Book online · Walk-ins welcome
+            Call to book · Walk-ins welcome
           </div>
         </div>
       </div>

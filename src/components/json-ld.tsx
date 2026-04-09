@@ -45,10 +45,11 @@ export function JsonLd({ siteUrl }: JsonLdProps) {
         name: SITE.name,
         publisher: { "@id": `${url}/#business` },
         potentialAction: {
-          "@type": "ReserveAction",
+          "@type": "CommunicateAction",
+          name: "Call",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: `${url}/book`,
+            urlTemplate: "tel:+19566808271",
           },
         },
       },

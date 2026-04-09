@@ -5,8 +5,7 @@ export default function AdminStaffPage() {
     <div>
       <h1 className="font-display text-3xl font-semibold text-white">Your team</h1>
       <p className="mt-2 max-w-2xl text-sm text-zinc-400">
-        Names and titles for your records. The live booking page may still use the original provider list until that
-        piece is switched over—this screen is still useful to keep everyone on file.
+        Names and titles for your team. Use this list to keep everyone on file for the site and your records.
       </p>
       <div className="mt-8">
         <StaffDirectoryEditor />

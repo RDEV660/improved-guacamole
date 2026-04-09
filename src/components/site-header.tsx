@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const NAV = [
-  { href: "/book", label: "Book" },
   { href: "/#lily-services", label: "Services" },
   { href: "/#instagram-showcase", label: "Gallery" },
   { href: "/#lily-hours", label: "Hours" },

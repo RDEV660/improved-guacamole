@@ -1,4 +1,3 @@
-import { BOOKING_BLACKOUT_DATES } from "@/lib/business-schedule";
 import { DEFAULT_SALON_THEME } from "@/lib/salon-config-defaults";
 import { isRedisDataConfigured, redisGetJson, redisSetJson, REDIS_KEYS } from "@/lib/redis-data";
 import { promises as fs } from "fs";
@@ -18,17 +17,28 @@ const ThemeSchema = z.object({
 
 export const SalonConfigSchema = z.object({
   theme: ThemeSchema,
-  blackoutDates: z.array(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
-  notifyEmails: z.array(z.string().email()),
 });
 
 export type SalonConfig = z.infer<typeof SalonConfigSchema>;
 
+/** Accepts legacy configs that included booking-only fields. */
+const LegacySalonConfigSchema = z.object({
+  theme: ThemeSchema,
+  blackoutDates: z.array(z.string()).optional(),
+  notifyEmails: z.array(z.string().email()).optional(),
+});
+
 export const DEFAULT_SALON_CONFIG: SalonConfig = {
   theme: { ...DEFAULT_SALON_THEME },
-  blackoutDates: [],
-  notifyEmails: [],
 };
+
+function normalizeConfig(raw: unknown): SalonConfig | null {
+  const modern = SalonConfigSchema.safeParse(raw);
+  if (modern.success) return modern.data;
+  const legacy = LegacySalonConfigSchema.safeParse(raw);
+  if (legacy.success) return { theme: legacy.data.theme };
+  return null;
+}
 
 async function ensureConfigFile(): Promise<void> {
   const dir = path.dirname(CONFIG_PATH);
@@ -43,8 +53,8 @@ async function ensureConfigFile(): Promise<void> {
 export async function readSalonConfig(): Promise<SalonConfig> {
   if (isRedisDataConfigured()) {
     const parsed = await redisGetJson<unknown>(REDIS_KEYS.salonConfig);
-    const r = SalonConfigSchema.safeParse(parsed);
-    if (r.success) return r.data;
+    const n = normalizeConfig(parsed);
+    if (n) return n;
     return DEFAULT_SALON_CONFIG;
   }
   try {
@@ -52,18 +62,17 @@ export async function readSalonConfig(): Promise<SalonConfig> {
     const raw = await fs.readFile(CONFIG_PATH, "utf8");
     try {
       const parsed = JSON.parse(raw) as unknown;
-      const r = SalonConfigSchema.safeParse(parsed);
-      if (r.success) return r.data;
+      const n = normalizeConfig(parsed);
+      if (n) return n;
     } catch {
       /* fall through */
     }
   } catch {
-    // Read-only FS on serverless: use bundled or committed file if present.
     try {
       const raw = await fs.readFile(CONFIG_PATH, "utf8");
       const parsed = JSON.parse(raw) as unknown;
-      const r = SalonConfigSchema.safeParse(parsed);
-      if (r.success) return r.data;
+      const n = normalizeConfig(parsed);
+      if (n) return n;
     } catch {
       /* fall through */
     }
@@ -79,12 +88,6 @@ export async function writeSalonConfig(config: SalonConfig): Promise<void> {
   }
   await ensureConfigFile();
   await fs.writeFile(CONFIG_PATH, JSON.stringify(parsed, null, 2), "utf8");
-}
-
-/** Code blackouts + admin-config blackouts (deduped, sorted). */
-export async function getMergedBlackoutDates(): Promise<string[]> {
-  const cfg = await readSalonConfig();
-  return [...new Set([...BOOKING_BLACKOUT_DATES, ...cfg.blackoutDates])].sort();
 }
 
 export function themeToCssVars(theme: SalonConfig["theme"]): string {

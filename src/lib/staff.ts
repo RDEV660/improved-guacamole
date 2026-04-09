@@ -4,7 +4,7 @@ export type StaffMember = {
   role?: string;
 };
 
-/** Lowercase ids — used in bookings and service.staffIds */
+/** Lowercase ids — used with staff directory data */
 export const STAFF: StaffMember[] = [
   { id: "lily", name: "Lily", role: "Owner" },
   { id: "sherlyn", name: "Sherlyn", role: "Manager" },

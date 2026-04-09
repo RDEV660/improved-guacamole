@@ -19,13 +19,9 @@ function getRedis(): Redis | null {
 }
 
 export const REDIS_KEYS = {
-  bookings: "lilys:data:bookings",
-  staffAbsences: "lilys:data:staff-absences",
   salonConfig: "lilys:data:salon-config",
   deals: "lilys:data:deals",
   staffDirectory: "lilys:data:staff-directory",
-  servicesJson: "lilys:data:services-json",
-  cloverOAuth: "lilys:data:clover-oauth",
 } as const;
 
 /**
